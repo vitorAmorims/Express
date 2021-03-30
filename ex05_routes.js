@@ -27,3 +27,15 @@ router.use((req, res, next) => {
   next();
   console.log(`Tempo = ${Date.now() - init} ms.`)
 })
+
+router.get('/produtos/:id', (req, res) => {
+    res.json({id: req.params.id, produto: "Caneta"})
+})
+
+router.get('/clientes/:id/:nome', (req, res) => {
+    res.json({id: req.params.id, nome: req.params.nome})
+})
+
+// agora é necessário exportar
+
+module.exports = router
