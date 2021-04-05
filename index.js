@@ -1,6 +1,8 @@
 const express = require("express");
-
 const app = express();
+const axios = require("axios");
+
+const routerBtcPrice = require("./Routes/btc_price");
 
 app.use(express.json());
 
@@ -23,7 +25,7 @@ function validateEmailPassword(value) {
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
   let token = "";
   let passwordLenght = password.toString();
-  
+
   if (
     regexEmail.test(email) &&
     myFunction(password) &&
@@ -48,6 +50,17 @@ app.post("/login", (req, res) => {
   } else {
     res.status(401).send("email or password is incorrect");
   }
+});
+
+app.use("/btc/price", routerBtcPrice);
+
+app.post("/btc/price", (req, resp) => {
+  const url = "https://api.coindesk.com/v1/bpi/currentprice/BTC.json";
+  axios
+    .get(url)
+    .then((response) =>
+      resp.send({ sucess: true, data: response.data.bpi.USD.rate })
+    );
 });
 
 app.listen(3000, () => {
