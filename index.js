@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
 const axios = require("axios");
-const posts = require('./posts.json')
+const posts = require('./posts.json');
 // console.log(posts)
+const users = require('./users.json');
+// console.log(users)
 
 const routerBtcPrice = require("./Routes/btc_price");
 
@@ -80,6 +82,19 @@ app.get('/posts/:id', (req, res) => {
   }
   res.send({ sucess: false, data: []})
 })
+
+app.get('/user/:name', (req, res) => {
+  // console.log(req.params)
+  const { name } = req.params;
+  const objuser = users.find(user => user.user === name);
+  // console.log(objuser)
+  if (objuser) {
+    res.send({ sucess: true, data: objuser.comments})
+  }
+  res.send({ sucess: false, data: 'user not found.' })
+  
+})
+
 
 app.listen(3000, () => {
   console.log("Running on port 3000");
