@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const axios = require("axios");
+const posts = require('./posts.json')
+// console.log(posts)
 
 const routerBtcPrice = require("./Routes/btc_price");
 
@@ -62,6 +64,22 @@ app.post("/btc/price", (req, resp) => {
       resp.send({ sucess: true, data: response.data.bpi.USD.rate })
     );
 });
+
+app.get('/posts', (req, res) => {
+  res.send({ sucess: true, data: posts})
+})
+
+app.get('/posts/:id', (req, res) => {
+  // console.log(req.params.id)
+  const { id } = req.params;
+  // console.log(posts)
+  if ( id ) {
+    const newPosts = posts.find(post => post.id === Number(id));
+    // console.log(newPosts)
+    res.send({ sucess: true, data: newPosts})
+  }
+  res.send({ sucess: false, data: []})
+})
 
 app.listen(3000, () => {
   console.log("Running on port 3000");
