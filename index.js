@@ -5,6 +5,11 @@ const posts = require('./posts.json');
 // console.log(posts)
 const users = require('./users.json');
 // console.log(users)
+const midAdicao = require('./middlewares/adicao');
+const midsubtracao = require('./middlewares/subtracao');
+const middivisao = require('./middlewares/divisao');
+const midmultiplicacao = require('./middlewares/multiplicacao');
+
 
 const routerBtcPrice = require("./Routes/btc_price");
 
@@ -94,6 +99,11 @@ app.get('/user/:name', (req, res) => {
   res.send({ sucess: false, data: 'user not found.' })
   
 })
+
+app.use('/adicao', midAdicao)
+app.use('/subtracao', midsubtracao)
+app.use('/divisao', middivisao)
+app.use('/multiplicacao', midmultiplicacao)
 
 
 app.listen(3000, () => {
